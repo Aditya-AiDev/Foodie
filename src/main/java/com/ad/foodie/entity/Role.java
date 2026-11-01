@@ -1,5 +1,5 @@
-package com.ad.foodie.entity;
+// package com.ad.foodie.entity;
 
-public enum Role {
-    ADMIN, CUSTOMER, DELIVERY_BOY
-}
+// public enum Role {
+//     ADMIN, CUSTOMER, DELIVERY_BOY
+// }

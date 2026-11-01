@@ -1,6 +1,7 @@
 package com.ad.foodie.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,18 +29,8 @@ public class UserDto {
 
     private String phoneNumber;
 
-    private LocalDate createdDate;
+    private List<RoleEntityDto> roleEntities;
 
-    // ///AllArgConstructor
-    // public UserDto(String id, String name, String email, String password, String address,
-    //         String phoneNumber, LocalDate createdDate) {
-    //     this.id = id;
-    //     this.name = name;
-    //     this.email = email;
-    //     this.password = password;
-    //     this.address = address;
-    //     this.phoneNumber = phoneNumber;
-    //     this.createdDate = createdDate;
-    // }
+    
 
 }

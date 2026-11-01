@@ -9,13 +9,16 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import lombok.Builder;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,21 +44,56 @@ public class User {
 
     private String phoneNumber;
 
-    @Enumerated(EnumType.STRING)
-    private Role roles; //ADMIN, CUSTOMER, DELIVERY_BOY
+    // @Enumerated(EnumType.STRING)
+    // private Role roles; //ADMIN, CUSTOMER, DELIVERY_BOY
 
     private boolean isAvailable = true; //applicable option for delivery boy
 
     private LocalDate createdDate;
 
+    private boolean enabled=true;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restaurant> restaurants = new ArrayList<>();
+
+
+
     //
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<RoleEntity> roleEntities = new ArrayList<>();
+
+
+    //
+    @PrePersist
+    @PreUpdate 
+    protected void onCreate() {
+        if(this.createdDate== null){
+            this.createdDate = LocalDate.now();
+        }
+        
+    }
+
+
+//// Entity Life Cycle Call Back Annotations ////
+
+//    @PrePersist
+//    public void preSave() {
+//        this.createdDate = LocalDate.now();
+//    }
+//
+//    @PostPersist
+//    public void postSave() {
+//        System.out.println("entity saved : " + this.getId());
+//    }
+//
+//    @PreUpdate
+//    public void preUpdate() {
+//        System.out.println("entity updated : " + this.getId());
+//    }
+
 
 }

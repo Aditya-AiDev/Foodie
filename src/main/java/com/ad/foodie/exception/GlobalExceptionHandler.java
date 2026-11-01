@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -26,6 +27,18 @@ public class GlobalExceptionHandler {
         .build();
 
         return new ResponseEntity<>(msg,HttpStatus.NOT_FOUND);
+
+    }
+
+    //if password is wrong//
+    @ExceptionHandler (BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex){
+        ErrorResponse msg=ErrorResponse.builder()
+        .message("Invalid password")
+        .status(HttpStatus.BAD_REQUEST)
+        .build();
+
+        return new ResponseEntity<>(msg,HttpStatus.BAD_REQUEST);
 
     }
 
@@ -80,6 +93,9 @@ public class GlobalExceptionHandler {
         body.put("message", message);
         return new ResponseEntity<>(body, status);
     }
+
+    ////
+    
 
 
 
