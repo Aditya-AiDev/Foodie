@@ -38,7 +38,8 @@ public class SecurityConfig {
 
         http.csrf(e->e.disable())
             .authorizeHttpRequests(request->
-                request.requestMatchers("/api/v1/auth/login").permitAll()                  //login-create Token --anyone
+                request.requestMatchers("/api/v1/auth/login").permitAll()                  //login-create accessToken --need-- email,password in body--anyone
+                        .requestMatchers("/api/v1/auth/refresh-token").permitAll()      //-create new accessToken need --refresh token in body --anyone
                         .requestMatchers(HttpMethod.POST,"/api/v1/users").permitAll()      //add User --anyone 
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole(AppConstants.ROLE_ADMIN)         // delete user --only done by ADMIN and need token
                         .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole(AppConstants.ROLE_ADMIN)         // update user --only done by ADMIN and need token
