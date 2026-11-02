@@ -1,5 +1,6 @@
 package com.ad.foodie.exception;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -41,6 +43,31 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(msg,HttpStatus.BAD_REQUEST);
 
     }
+
+    ///AccessDeniedException ---for role based like--admin-- authentication
+    @ExceptionHandler (AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex){
+        ErrorResponse msg=ErrorResponse.builder()
+        .message(ex.getMessage())
+        .status(HttpStatus.BAD_REQUEST)
+        .build();
+
+        return new ResponseEntity<>(msg,HttpStatus.BAD_REQUEST);
+
+    }
+
+    /// DisabledException : User is disabled
+    @ExceptionHandler (DisabledException.class)
+    public ResponseEntity<ErrorResponse> handleDisabledException(DisabledException ex){
+        ErrorResponse msg=ErrorResponse.builder()
+        .message(ex.getMessage())
+        .status(HttpStatus.BAD_REQUEST)
+        .build();
+
+        return new ResponseEntity<>(msg,HttpStatus.BAD_REQUEST);
+
+    }
+    
 
     // io.jsonwebtoken.security.SignatureException -->>The token structure and Base64 encoding are valid, but the signature does not match your secret key.
     // io.jsonwebtoken.security.MalformedKeyException --->>The token breaks the fundamental syntax or structure of a JWT.

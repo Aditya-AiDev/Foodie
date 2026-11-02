@@ -52,6 +52,7 @@ public class User {
     private LocalDate createdDate;
 
     private boolean enabled=true;
+    // private boolean enabled=false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restaurant> restaurants = new ArrayList<>();
